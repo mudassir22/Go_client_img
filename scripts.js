@@ -1,7 +1,7 @@
 function sendData() {
     const data = document.getElementById('dataToSend').value;
 
-    fetch('https://192.168.0.103:8080', {
+    fetch('https://192.168.0.103:443', {
         method: 'POST',
         body: data,
         headers: {
