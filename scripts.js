@@ -4,9 +4,9 @@ function sendData() {
     fetch('https://192.168.0.103:443', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain', // Set the content type to text/plain
         },
-        body: JSON.stringify(data),
+        body: data,
         // Note: You don't need to disable certificate validation in the browser
     })
     .then(response => response.text())
