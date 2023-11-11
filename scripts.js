@@ -2,12 +2,14 @@ function sendData() {
     const data = document.getElementById('dataToSend').value;
 
     fetch('https://192.168.0.103:443', {
-        method: 'POST',
-        body: data,
-        headers: {
-            'Content-Type': 'text/plain',
-        },
-    })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      // Disable certificate validation (not recommended for production)
+      agent: new (require('https')).Agent({ rejectUnauthorized: false }),
+})
     .then(response => response.text())
     .then(result => {
         console.log('Server response:', result);
