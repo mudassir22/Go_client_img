@@ -1,7 +1,7 @@
 function sendData() {
     const data = document.getElementById('dataToSend').value;
 
-    fetch('https://192.168.0.103:8443', {
+    fetch('https://sites.local:8443', {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain', // Set the content type to text/plain
