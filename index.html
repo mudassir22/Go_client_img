@@ -1,21 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Send Data to Server</title>
+    <title>Client Page</title>
 </head>
 <body>
+    <h1>Client Page</h1>
+    <label for="dataInput">Enter data:</label>
+    <input type="text" id="dataInput" placeholder="Type something...">
+    <button onclick="sendRequest()">Send Request to Server</button>
 
-    <div class="container">
-        <h1>Send Data to Server</h1>
+    <script>
+        function sendRequest() {
+            // Get the data entered by the user
+            const data = document.getElementById("dataInput").value;
 
-        <textarea id="dataToSend" placeholder="Enter data to send"></textarea>
-        <button onclick="sendData()">Send Data</button>
-    </div>
-
-    <script src="scripts.js"></script>
-
+            // Send a POST request to the server with the entered data
+            fetch("https://9cb4-103-141-169-21.ngrok-free.app", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data }),
+            })
+                .then(response => response.text())
+                .then(responseData => console.log("Server response:", responseData))
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
 </body>
 </html>
