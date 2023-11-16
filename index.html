@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON File Sender</title>
+</head>
+<body>
+    <h2>QR Ticket Request</h2>
+    <label for="Server_end_point">Enter Server address:</label>
+    <input type="text" id="Server_end_point" placeholder="server address">
+    <br>
+    <br>
+    <h3>Select the ticket to send</h3>
+    <button onclick="sendJSON('2x3_QR_Ticket.json')">2x3 QR Ticket</button>
+    <button onclick="sendJSON('1x1_QR_Ticket.json')">1x1 QR Ticket</button>
+    <button onclick="sendJSON('1x1_Group_QR_Ticket.json')">1x1 Group QR Ticket</button>
+
+    <script>
+        function sendJSON(fileName) {
+            // Create a sample JSON data
+            const jsonData = {
+                buttonClicked: fileName.replace('.json', ''),
+                timestamp: new Date().toISOString()
+            };
+
+            // Use the Fetch API to send the JSON data to the server
+            const serverEndpoint = document.getElementById('Server_end_point').value;
+            fetch(serverEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                    alert('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Server response:', data);
+                alert('Server response:', data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                alert('There was a problem with the fetch operation:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
