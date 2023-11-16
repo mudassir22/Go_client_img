@@ -1,0 +1,61 @@
+{
+    "Requester_ID":"15",
+    "TXN_Ref_No": "ABCDRC2020050788888123",
+    "Language":"0",
+    "TXN_Type": "65",
+    "TXN_Date": "12/06/2020@18-47-57",
+    "PSP Specific_Data": "Mode=IMPS;ServiceFee=1%",
+    "Total_Fare": "240",
+    "Customer_Mobile":"9201345678",
+    "TicketBlock": {
+        "Dynamic Block": {
+                  "OperatorID1": {
+                    "OpID": "10",
+                    "NoOfTickets": "2",
+                    "Validator_Info": "16", 
+                        "TicketInfo": {
+                                "TicketInfo1": {
+                                    "Grp Size": "1",
+                                    "Src_Stn": "06",
+                                    "Dest_Stn": "24",
+                                    "Activation_Date": "24/06/2020@18-20-45",
+                                    "Product_id": "01",
+                                    "Service Id": "01",
+                                    "Ticket_Fare": "45",
+                                    "Validity": "480", 
+                                    "Duration":"180"
+                                },
+                                "TicketInfo2": {
+                                    "Grp Size": "1",
+                                    "Src_Stn": "24",
+                                    "Dest_Stn": "06",
+                                    "Activation_Date": "24/06/2020@20-30-00",
+                                    "Product_id": "01",
+                                    "Service Id": "01",
+                                    "Ticket_Fare": "45",
+                                    "Validity": "480", 
+                                    "Duration":"180"
+                                }
+                            }
+                },
+                "OperatorID2":{
+                        "OpID": "135",
+                        "NoOfTickets": "1",
+                        "Validator_Info": "16",
+                        "TicketInfo": {
+                                "TicketInfo1": {
+                                        "Grp Size": "1",
+                                        "Src_Stn": "25",
+                                        "Dest_Stn": "47",
+                                        "Activation_Date": "24/06/2020@15-30-30",
+                                        "Product_id": "01",
+                                        "Service Id": "03",
+                                        "Ticket_Fare": "150",
+                                        "Validity": "240", 
+                                        "Duration":"90"
+                                }
+                        }
+                }
+        }
+    }
+}
