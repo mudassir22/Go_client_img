@@ -60,25 +60,29 @@
 
     <script>
         function sendRequest() {
-            // Get the data entered by the user
-            const data = document.getElementById("dataInput").value;
+        // Get the data entered by the user
+        const dataInput = document.getElementById("dataInput");
+        const data = dataInput.value;
 
-            // Send a POST request to the server with the entered data
-            fetch("https://91ff-122-160-48-182.ngrok-free.app", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data }),
-            })
-            .then(response => response.text())
-            .then(responseData => {
-                alert("Server response: " + responseData);
-            })
-            .catch(error => {
-                alert("Error: " + error);
-            });
-        }
+        // Update the Ngrok URL to the new forwarding address
+        fetch("https://91ff-122-160-48-182.ngrok-free.app", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        })
+        .then(response => response.text())
+        .then(responseData => {
+            alert("Server response: " + responseData);
+            
+            // Clear the input box after sending data
+            dataInput.value = "";
+        })
+        .catch(error => {
+            alert("Error: " + error);
+        });
+    }
     </script>
 </body>
 </html>
