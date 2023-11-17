@@ -54,22 +54,27 @@
     </div>
     
     <script>
-        function sendRequest() {
-            // Get the data entered by the user
-            const data = document.getElementById("dataInput").value;
+    function sendRequest() {
+        // Get the data entered by the user
+        const data = document.getElementById("dataInput").value;
 
-            // Send a POST request to the server with the entered data
-            fetch("https://3153-122-160-48-182.ngrok-free.app", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data }),
-            })
-                .then(response => response.text())
-                .then(responseData => console.log("Server response:", responseData))
-                .catch(error => console.error("Error:", error));
-        }
-    </script>
+        // Send a POST request to the server with the entered data
+        fetch("https://3153-122-160-48-182.ngrok-free.app", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        })
+        .then(response => response.text())
+        .then(responseData => {
+            alert("Server response: " + responseData);
+        })
+        .catch(error => {
+            alert("Error: " + error);
+        });
+    }
+</script>
+
 </body>
 </html>
