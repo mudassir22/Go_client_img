@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #ecf0f1;
             margin: 0;
             padding: 0;
             display: flex;
@@ -24,10 +24,15 @@
             padding: 30px;
             width: 300px;
             margin: auto;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
         }
 
         h1 {
-            color: #2c3e50;
+            color: #3498db;
         }
 
         input {
@@ -38,6 +43,12 @@
             border: 1px solid #bdc3c7;
             border-radius: 4px;
             font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #3498db;
+            outline: none;
         }
 
         button {
