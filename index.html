@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Client Page</title>
     <style>
+        .main-container{
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            hieght:97vh;
+            width:100%;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -12,22 +20,18 @@
         }
 
         h1 {
-            color: #333;
-        }
-
-        label {
-            display: block;
-            margin-top: 10px;
+            color: #0A253E;
         }
 
         input {
-            width: 100%;
+            width: 150px;
+            height:100px;
             padding: 8px;
-            margin-top: 5px;
+            margin-top: 20px;
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #127EE6;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -37,16 +41,18 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #0B5499;
         }
     </style>
 </head>
 <body>
-    <h1>Client Page</h1>
-    <label for="dataInput">Enter data:</label>
+    <div class="main-container">
+    <h1>Send to EPID</h1>
+    
     <input type="text" id="dataInput" placeholder="Type something here now...">
-    <button onclick="sendRequest()">Send Request to Server</button>
-
+    <button onclick="sendRequest()">Send</button>        
+    </div>
+    
     <script>
         function sendRequest() {
             // Get the data entered by the user
