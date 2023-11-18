@@ -80,42 +80,43 @@
     </div>
 
     <script>
-        function sendRequest() {
-            // Get the text data entered by the user
-            const textInput = document.getElementById("dataInput");
-            const textData = textInput.value;
+    function sendRequest() {
+        // Get the text data entered by the user
+        const textInput = document.getElementById("dataInput");
+        const textData = textInput.value;
 
-            // Get the image file selected by the user
-            const imageInput = document.getElementById("imageInput");
-            const imageFile = imageInput.files[0];
+        // Get the image file selected by the user
+        const imageInput = document.getElementById("imageInput");
+        const imageFile = imageInput.files[0];
 
-            // Create a FormData object to handle mixed text and file data
-            const formData = new FormData();
-            formData.append("type", "text"); // Indicate that it's text data
-            formData.append("content", textData); // Add text data to the form data
+        // Create a FormData object to handle mixed text and file data
+        const formData = new FormData();
+        formData.append("type", "text"); // Indicate that it's text data
+        formData.append("content", textData); // Add text data to the form data
 
-            if (imageFile) {
-                formData.append("type", "image"); // Indicate that it's image data
-                formData.append("content", imageFile); // Add image file to the form data
-            }
-
-            // Send a POST request to the server with the form data
-            fetch("https://0fef-122-160-48-182.ngrok-free.app", {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.text())
-            .then(responseData => {
-                alert("Server response: " + responseData);
-                // Clear the input fields after sending
-                textInput.value = "";
-                imageInput.value = "";
-            })
-            .catch(error => {
-                alert("Error: " + error);
-            });
+        if (imageFile) {
+            formData.append("type", "image"); // Indicate that it's image data
+            formData.append("image", imageFile); // Add image file to the form data with a different key
         }
-    </script>
+
+        // Send a POST request to the server with the form data
+        fetch("https://0fef-122-160-48-182.ngrok-free.app", {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(responseData => {
+            alert("Server response: " + responseData);
+            // Clear the input fields after sending
+            textInput.value = "";
+            imageInput.value = "";
+        })
+        .catch(error => {
+            alert("Error: " + error);
+        });
+    }
+</script>
+
 </body>
 </html>
 
