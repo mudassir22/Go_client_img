@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Your existing meta tags and title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPD Sender</title>
@@ -69,7 +70,6 @@
         background-color: #2980b9;
     }
 </style>
-
 </head>
 <body>
     <div class="container">
@@ -80,15 +80,13 @@
     </div>
 
     <script>
-        let textInput
-        let imageInput
         function sendRequest() {
             // Get the text data entered by the user
-            textInput = document.getElementById("dataInput");
+            const textInput = document.getElementById("dataInput");
             const textData = textInput.value;
 
             // Get the image file selected by the user
-            imageInput = document.getElementById("imageInput");
+            const imageInput = document.getElementById("imageInput");
             const imageFile = imageInput.files[0];
 
             // Create a FormData object to handle mixed text and file data
@@ -97,21 +95,10 @@
             formData.append("content", textData); // Add text data to the form data
 
             if (imageFile) {
-                // Convert the image file to a base64-encoded string
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const base64ImageData = e.target.result;
-                    formData.append("type", "image"); // Indicate that it's image data
-                    formData.append("content", base64ImageData); // Add image data to the form data
-                    sendFormData(formData);
-                };
-                reader.readAsDataURL(imageFile);
-            } else {
-                sendFormData(formData);
+                formData.append("type", "image"); // Indicate that it's image data
+                formData.append("content", imageFile); // Add image file to the form data
             }
-        }
 
-        function sendFormData(formData) {
             // Send a POST request to the server with the form data
             fetch("https://0fef-122-160-48-182.ngrok-free.app", {
                 method: 'POST',
@@ -131,3 +118,13 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
