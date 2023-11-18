@@ -1,3 +1,8 @@
+
+    
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,64 +80,38 @@
     <div class="container">
         <h1>Send to EPD</h1>
         <input type="text" id="dataInput" placeholder="Type something here...">
-        <input type="file" id="imageInput" accept="image/*">
         <button onclick="sendRequest()">Send</button>
     </div>
 
     <script>
-    // Define textInput and imageInput as global variables
-    const textInput = document.getElementById("dataInput");
-    const imageInput = document.getElementById("imageInput");
+        // Define textInput as a global variable
+        const textInput = document.getElementById("dataInput");
 
-    function sendRequest() {
-        // Get the text data entered by the user
-        const textData = textInput.value;
+        function sendRequest() {
+            // Get the text data entered by the user
+            const textData = textInput.value;
 
-        // Get the image file selected by the user
-        const imageFile = imageInput.files[0];
+            // Create a FormData object to handle text data
+            const formData = new FormData();
+            formData.append("type", "text"); // Indicate that it's text data
+            formData.append("content", textData); // Add text data to the form data
 
-        // Create a FormData object to handle mixed text and file data
-        const formData = new FormData();
-        formData.append("type", "text"); // Indicate that it's text data
-        formData.append("content", textData); // Add text data to the form data
-
-        if (imageFile) {
-            // Convert the image file to a base64-encoded string
-            const reader = new FileReader();
-            reader.onloadend = function () {
-                const base64Image = reader.result.split(',')[1];
-                formData.append("type", "image"); // Indicate that it's image data
-                formData.append("content", base64Image); // Add base64-encoded image data to the form data
-                sendFormData(formData);
-            };
-            reader.readAsDataURL(imageFile);
-        } else {
-            // If no image is selected, send the request with only text data
-            sendFormData(formData);
+            // Send a POST request to the server with the form data
+            fetch("https://8878-122-160-48-182.ngrok-free.app", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(responseData => {
+                alert("Server response: " + responseData);
+                // Clear the input field after sending
+                textInput.value = "";
+            })
+            .catch(error => {
+                alert("Error: " + error);
+            });
         }
-    }
-
-    function sendFormData(formData) {
-        // Send a POST request to the server with the form data
-        fetch("https://8878-122-160-48-182.ngrok-free.app", {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.text())
-        .then(responseData => {
-            alert("Server response: " + responseData);
-            // Clear the input fields after sending
-            textInput.value = "";
-            imageInput.value = "";
-        })
-        .catch(error => {
-            alert("Error: " + error);
-        });
-    }
-</script>
-
-
-
+    </script>
 </body>
 </html>
 
