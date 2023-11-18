@@ -38,8 +38,7 @@
             margin-bottom: 20px;
         }
 
-        input[type="text"],
-        input[type="file"] {
+        input {
             width: calc(100% - 20px);
             padding: 12px;
             box-sizing: border-box;
@@ -50,8 +49,7 @@
             margin-bottom: 20px;
         }
 
-        input[type="text"]:focus,
-        input[type="file"]:focus {
+        input:focus {
             border-color: #2980b9;
             outline: none;
         }
@@ -76,7 +74,6 @@
     <div class="container">
         <h1>Send to EPD</h1>
         <input type="text" id="dataInput" placeholder="Type something here...">
-        <input type="file" id="fileInput" accept="image/*">
         <button onclick="sendRequest()">Send</button>
     </div>
 
@@ -86,26 +83,19 @@
             const dataInput = document.getElementById("dataInput");
             const data = dataInput.value;
 
-            // Get the selected file
-            const fileInput = document.getElementById("fileInput");
-            const file = fileInput.files[0];
-
-            // Create a FormData object to send both text and file data
-            const formData = new FormData();
-            formData.append('data', data);
-            formData.append('file', file);
-
-            // Send a POST request to the server with the entered data and file
+            // Send a POST request to the server with the entered data
             fetch("https://0fef-122-160-48-182.ngrok-free.app", {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data }),
             })
             .then(response => response.text())
             .then(responseData => {
                 alert("Server response: " + responseData);
-                // Clear the input fields after sending
+                // Clear the input field after sending
                 dataInput.value = "";
-                fileInput.value = "";
             })
             .catch(error => {
                 alert("Error: " + error);
