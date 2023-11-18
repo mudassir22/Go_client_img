@@ -80,13 +80,15 @@
     </div>
 
     <script>
+        let textInput
+        let imageInput
         function sendRequest() {
             // Get the text data entered by the user
-            const textInput = document.getElementById("dataInput");
+            textInput = document.getElementById("dataInput");
             const textData = textInput.value;
 
             // Get the image file selected by the user
-            const imageInput = document.getElementById("imageInput");
+            imageInput = document.getElementById("imageInput");
             const imageFile = imageInput.files[0];
 
             // Create a FormData object to handle mixed text and file data
