@@ -133,8 +133,9 @@
         fetch("https://cd41-122-160-48-182.ngrok-free.app", {
             method: 'POST',
             body: formData,
+            // Add this line to set the correct content type for image data
             headers: {
-                'Content-Type': 'multipart/form-data', // Add this line to set the correct content type for image data
+                'Content-Type': 'multipart/form-data',
             },
         })
         .then(response => response.text())
