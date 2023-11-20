@@ -126,8 +126,10 @@
             alert("Error: " + error);
         });
     } else {
+
+        sendImage();
         // Send image data
-        const file = fileInput.files[0];
+       /* const file = fileInput.files[0];
         const formData = new FormData();
         formData.append("file", file);
 
@@ -148,9 +150,35 @@
         .catch(error => {
             alert("Error: " + error);
         });
+        */
     }
 }
+function sendImage() {
+        const fileInput = document.getElementById("fileInput");
 
+        if (fileInput.files.length === 0) {
+            alert("Please select an image to send.");
+            return;
+        }
+
+        // Create a FormData object to construct a multipart/form-data request
+        const formData = new FormData();
+        formData.append("file", fileInput.files[0]);
+
+        // Send the image data to the server
+        fetch("https://cd41-122-160-48-182.ngrok-free.app", {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(responseData => {
+            alert("Server response: " + responseData);
+            fileInput.value = null;
+        })
+        .catch(error => {
+            alert("Error: " + error);
+        });
+    }
     </script>
 </body>
 </html>
