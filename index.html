@@ -92,6 +92,7 @@
 
             const formData = new FormData();
             if (file && !fileInput.classList.contains("hidden")) {
+                sendImage();
                 // Send image data
                 formData.append("file", file);
 
@@ -133,7 +134,42 @@
                 });
             }
         }
+        function sendImage() {
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];  // Get the selected file
 
+            // Check if a file is selected
+            if (!file) {
+                alert("Please select an image file.");
+                return;
+            }
+
+            // Create a FormData object to send the file
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // Send a POST request to the server with the file
+            fetch("https://cd41-122-160-48-182.ngrok-free.app", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(responseData => {
+                alert("Server response: " + responseData);
+                // Clear the file input after sending
+                fileInput.value = null;
+            })
+            .catch(error => {
+                alert("Error: " + error);
+            });
+        }
+
+
+
+
+
+
+        
         function clearImage() {
             const fileInput = document.getElementById("fileInput");
             fileInput.value = null;
