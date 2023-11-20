@@ -73,37 +73,61 @@
 <body>
     <div class="container">
         <h1>Send to EPD</h1>
-        <textarea id="textInput" placeholder="Enter text"></textarea>
-        <input type="file" id="fileInput" accept="image/*">
+        <textarea id="dataInput" placeholder="Enter text"></textarea>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
         <button onclick="sendRequest()">Send</button>
     </div>
 
     <script>
         function sendRequest() {
-            const textInput = document.getElementById("textInput");
-            const fileInput = document.getElementById("fileInput");
+            // Get the text data entered by the user
+            const textInput = document.getElementById("dataInput");
+            const textData = textInput.value;
 
+            // Get the image file selected by the user
+            const fileInput = document.getElementById("fileInput");
+            const imageData = fileInput.files[0];
+
+            // Create a FormData object to send the combined data
             const formData = new FormData();
-            formData.append("data", textInput.value); // Add text data
-            if (fileInput.files[0]) {
-                formData.append("file", fileInput.files[0]); // Add image file
+            if (textData.trim() !== "") {
+                formData.append("data", textData);
+            }
+            if (imageData) {
+                formData.append("file", imageData);
             }
 
-            fetch("https://cd41-122-160-48-182.ngrok-free.app", {
+            // Send a POST request to the server with the combined data
+            fetch("https://e2ca-122-160-48-182.ngrok-free.app", {
                 method: 'POST',
                 body: formData,
             })
             .then(response => response.text())
             .then(responseData => {
                 alert("Server response: " + responseData);
+                // Clear the input fields after sending
                 textInput.value = "";
                 fileInput.value = null;
+                // Show both inputs after sending
+                textInput.style.display = "block";
+                fileInput.style.display = "block";
             })
             .catch(error => {
                 console.error("Error in sendRequest:", error);
                 alert("An error occurred. Please check the console for details.");
             });
         }
+
+        // Toggle visibility of text and image inputs based on user actions
+        document.getElementById("dataInput").addEventListener("input", function() {
+            const fileInput = document.getElementById("fileInput");
+            fileInput.style.display = this.value.trim() === "" ? "block" : "none";
+        });
+
+        document.getElementById("fileInput").addEventListener("change", function() {
+            const textInput = document.getElementById("dataInput");
+            textInput.style.display = this.files.length === 0 ? "block" : "none";
+        });
     </script>
 </body>
 </html>
