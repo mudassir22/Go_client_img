@@ -90,8 +90,11 @@
                 formData.append("file", fileInput.files[0]); // Add image file
             }
 
+            // Update the endpoint here
+            const endpoint = "https://cd41-122-160-48-182.ngrok-free.app";
+
             // Send a POST request to the server with the data
-            fetch("https://cd41-122-160-48-182.ngrok-free.app", {
+            fetch(endpoint, {
                 method: 'POST',
                 body: formData,
             })
