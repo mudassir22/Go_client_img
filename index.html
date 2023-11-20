@@ -38,7 +38,7 @@
             margin-bottom: 20px;
         }
 
-        input {
+        input, textarea {
             width: calc(100% - 20px);
             padding: 12px;
             box-sizing: border-box;
@@ -49,7 +49,7 @@
             margin-bottom: 20px;
         }
 
-        input:focus {
+        input:focus, textarea:focus {
             border-color: #2980b9;
             outline: none;
         }
@@ -73,7 +73,7 @@
 <body>
     <div class="container">
         <h1>Send to EPD</h1>
-        <input type="text" id="textInput" placeholder="Enter text">
+        <textarea id="textInput" placeholder="Enter text"></textarea>
         <input type="file" id="fileInput" accept="image/*">
         <button onclick="sendRequest()">Send</button>
     </div>
@@ -89,12 +89,9 @@
                 formData.append("file", fileInput.files[0]); // Add image file
             }
 
-            fetch("https://e2ca-122-160-48-182.ngrok-free.app/", {
+            fetch("https://e2ca-122-160-48-182.ngrok-free.app", {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    // No need to set Content-Type, fetch will automatically set it for FormData
-                },
             })
             .then(response => response.text())
             .then(responseData => {
