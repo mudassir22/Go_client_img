@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text and Image Input</title>
+    <title>Toggle Inputs</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -17,132 +16,107 @@
         }
 
         .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 300px;
-            margin: auto;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
-        .container:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-        }
-
-        #textInput, #fileInput {
-            width: calc(100% - 20px);
-            padding: 12px;
-            box-sizing: border-box;
-            border: 2px solid #3498db;
-            border-radius: 4px;
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
-            margin-bottom: 20px;
-        }
-
-        #textInput:focus, #fileInput:focus {
-            border-color: #2980b9;
-            outline: none;
         }
 
         #fileInput {
-            display: none;
-        }
-
-        #textInput.active, #fileInput.active {
             display: block;
         }
 
-        button {
-            background-color: #3498db;
-            color: white;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #2980b9;
+        #fileInput.hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Send to Server</h1>
-        <input type="text" id="textInput" class="active" placeholder="Enter text">
+        <input type="text" id="textInput" class="active" placeholder="Enter text" oninput="toggleInput()">
         <input type="file" id="fileInput" accept="image/*">
-        <button onclick="sendRequest()">Send</button>
+        <button onclick="sendData()">Send Data</button>
+        <button onclick="clearImage()">Clear Image</button>
     </div>
 
     <script>
-        function sendRequest() {
-            const textInput = document.getElementById("textInput");
-            const fileInput = document.getElementById("fileInput");
-            const data = textInput.value;
-            const file = fileInput.files[0];
-
-            // Check if both text and image are provided
-            if (data && file) {
-                alert("Please provide either text or select an image file, not both.");
-                return;
-            }
-
-            // Check if neither text nor image is provided
-            if (!data && !file) {
-                alert("Please enter text or select an image file.");
-                return;
-            }
-
-            // Create a FormData object to send the data
-            const formData = new FormData();
-            if (data) {
-                // If text is provided, append it to the form data
-                formData.append("data", data);
-            }
-            if (file) {
-                // If an image is selected, append it to the form data
-                formData.append("file", file);
-            }
-
-            // Send a POST request to the server with the data
-            fetch("https://cd41-122-160-48-182.ngrok-free.app", {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.text())
-            .then(responseData => {
-                alert("Server response: " + responseData);
-                // Clear the input fields after sending
-                textInput.value = "";
-                fileInput.value = null;
-            })
-            .catch(error => {
-                alert("Error: " + error);
-            });
-        }
-
-        // Toggle between text input and file input
         function toggleInput() {
             const textInput = document.getElementById("textInput");
             const fileInput = document.getElementById("fileInput");
 
-            if (textInput.classList.contains("active")) {
-                textInput.classList.remove("active");
-                fileInput.classList.add("active");
+            if (textInput.value.trim() !== "") {
+                // If text is entered, hide the file input
+                fileInput.classList.add("hidden");
             } else {
-                textInput.classList.add("active");
-                fileInput.classList.remove("active");
+                // If no text, show the file input
+                fileInput.classList.remove("hidden");
             }
         }
 
-        // Attach event listener to the button for toggling input
-        document.getElementById("fileInput").addEventListener("change", toggleInput);
+        function sendData() {
+            const textInput = document.getElementById("textInput");
+            const fileInput = document.getElementById("fileInput");
+
+            if (textInput.value.trim() !== "") {
+                // Send text data
+                const data = textInput.value;
+                fetch("https://cd41-122-160-48-182.ngrok-free.app", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data }),
+                })
+                .then(response => response.text())
+                .then(responseData => {
+                    alert("Server response: " + responseData);
+                    // Clear the input field after sending
+                    textInput.value = "";
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            } else {
+                // Send image data
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    alert("Please select an image file.");
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append("file", file);
+
+                fetch("https://cd41-122-160-48-182.ngrok-free.app", {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.text())
+                .then(responseData => {
+                    alert("Server response: " + responseData);
+                    // Clear the file input after sending
+                    fileInput.value = null;
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            }
+        }
+
+        function clearImage() {
+            const fileInput = document.getElementById("fileInput");
+            fileInput.value = null;
+            fileInput.classList.remove("hidden");
+        }
     </script>
 </body>
 </html>
