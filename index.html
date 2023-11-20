@@ -73,29 +73,35 @@
 <body>
     <div class="container">
         <h1>Send to EPD</h1>
-        <input type="text" id="dataInput" placeholder="Type something here...">
+        <input type="file" id="fileInput" accept="image/*">
         <button onclick="sendRequest()">Send</button>
     </div>
 
     <script>
         function sendRequest() {
-            // Get the data entered by the user
-            const dataInput = document.getElementById("dataInput");
-            const data = dataInput.value;
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];  // Get the selected file
 
-            // Send a POST request to the server with the entered data
+            // Check if a file is selected
+            if (!file) {
+                alert("Please select an image file.");
+                return;
+            }
+
+            // Create a FormData object to send the file
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // Send a POST request to the server with the file
             fetch("https://cd41-122-160-48-182.ngrok-free.app", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data }),
+                body: formData,
             })
             .then(response => response.text())
             .then(responseData => {
                 alert("Server response: " + responseData);
-                // Clear the input field after sending
-                dataInput.value = "";
+                // Clear the file input after sending
+                fileInput.value = null;
             })
             .catch(error => {
                 alert("Error: " + error);
