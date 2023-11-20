@@ -80,6 +80,8 @@
                     alert("Server response: " + responseData);
                     // Clear the input field after sending
                     textInput.value = "";
+                    // Show the file input
+                    fileInput.classList.remove("hidden");
                 })
                 .catch(error => {
                     alert("Error: " + error);
@@ -105,6 +107,8 @@
                     alert("Server response: " + responseData);
                     // Clear the file input after sending
                     fileInput.value = null;
+                    // Show the text input
+                    fileInput.classList.remove("hidden");
                 })
                 .catch(error => {
                     alert("Error: " + error);
