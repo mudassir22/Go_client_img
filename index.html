@@ -4,29 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Add your styles here */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        #fileInput {
+
+        #container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-label:hover {
+            background-color: #2980b9;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #219a52;
         }
     </style>
     <title>Data Sender</title>
 </head>
 <body>
-    <h2>Data Sender</h2>
+    <div id="container">
+        <h2>Data Sender</h2>
 
-    <div>
         <label for="dataInput">Text Input:</label>
-        <textarea id="dataInput"></textarea>
-    </div>
+        <textarea id="dataInput" placeholder="Enter text here..."></textarea>
 
-    <div>
-        <label for="fileInput">Image Input:</label>
+        <label for="fileInput" class="file-label">Select Image</label>
         <input type="file" id="fileInput">
+
         <button onclick="sendRequest()">Send</button>
     </div>
 
