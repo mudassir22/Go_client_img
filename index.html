@@ -93,61 +93,61 @@
 
     <script>
         function sendRequest() {
-            const dataInput = document.getElementById("dataInput");
-            const fileInput = document.getElementById("fileInput");
-            const data = dataInput.value;
+    const dataInput = document.getElementById("dataInput");
+    const fileInput = document.getElementById("fileInput");
+    const data = dataInput.value;
 
-            if (data && fileInput.files.length > 0) {
-                alert("Please select only one type of data to send.");
-                return;
-            }
+    if (data && fileInput.files.length > 0) {
+        alert("Please select only one type of data to send.");
+        return;
+    }
 
-            if (!data && fileInput.files.length === 0) {
-                alert("Please enter text or select an image to send.");
-                return;
-            }
+    if (!data && fileInput.files.length === 0) {
+        alert("Please enter text or select an image to send.");
+        return;
+    }
 
-            if (data) {
-                // Send text data
-                fetch("https://cd41-122-160-48-182.ngrok-free.app", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ data }),
-                })
-                .then(response => response.text())
-                .then(responseData => {
-                    alert("Server response: " + responseData);
-                    dataInput.value = "";
-                })
-                .catch(error => {
-                    alert("Error: " + error);
-                });
-            } else {
-                // Send image data
-                const file = fileInput.files[0];
-                const formData = new FormData();
-                formData.append("file", file);
+    if (data) {
+        // Send text data
+        fetch("https://e2ca-122-160-48-182.ngrok-free.app", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+        })
+        .then(response => response.text())
+        .then(responseData => {
+            alert("Server response: " + responseData);
+            dataInput.value = "";
+        })
+        .catch(error => {
+            alert("Error: " + error);
+        });
+    } else {
+        // Send image data
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append("file", file);
 
-                fetch("https://cd41-122-160-48-182.ngrok-free.app", {
-                    method: 'POST',
-                    headers: {
-                        // Add the following line to set the correct content type for image data
-                     'Content-Type': 'multipart/form-data',
-                    },
-                    body: formData,
-                })
-                .then(response => response.text())
-                .then(responseData => {
-                    alert("Server response: " + responseData);
-                    fileInput.value = null;
-                })
-                .catch(error => {
-                    alert("Error: " + error);
-                });
-            }
-        }
+        fetch("https://e2ca-122-160-48-182.ngrok-free.app", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data', // Add this line to set the correct content type for image data
+            },
+        })
+        .then(response => response.text())
+        .then(responseData => {
+            alert("Server response: " + responseData);
+            fileInput.value = null;
+        })
+        .catch(error => {
+            alert("Error: " + error);
+        });
+    }
+}
+
     </script>
 </body>
 </html>
