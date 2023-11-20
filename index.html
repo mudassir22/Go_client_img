@@ -86,7 +86,8 @@
         <textarea id="dataInput" placeholder="Enter text here..."></textarea>
 
         <label for="fileInput" class="file-label">Select Image</label>
-        <input type="file" id="fileInput">
+        <input type="file" name="file" id="fileInput">
+
 
         <button onclick="sendRequest()">Send</button>
     </div>
@@ -135,8 +136,9 @@
             body: formData,
             // Add this line to set the correct content type for image data
             headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            'Content-Type': 'multipart/form-data',
+        },
+
         })
         .then(response => response.text())
         .then(responseData => {
