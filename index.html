@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPD Sender</title>
+    <title>Text and Image Input</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,13 +32,7 @@
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
         }
 
-        h1 {
-            color: #3498db;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        input, textarea {
+        #textInput, #fileInput {
             width: calc(100% - 20px);
             padding: 12px;
             box-sizing: border-box;
@@ -49,9 +43,17 @@
             margin-bottom: 20px;
         }
 
-        input:focus, textarea:focus {
+        #textInput:focus, #fileInput:focus {
             border-color: #2980b9;
             outline: none;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #textInput.active, #fileInput.active {
+            display: block;
         }
 
         button {
@@ -72,33 +74,44 @@
 </head>
 <body>
     <div class="container">
-        <h1>Send to EPD</h1>
-        <textarea id="dataInput" placeholder="Enter text"></textarea>
-        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        <h1>Send to Server</h1>
+        <input type="text" id="textInput" class="active" placeholder="Enter text">
+        <input type="file" id="fileInput" accept="image/*">
         <button onclick="sendRequest()">Send</button>
     </div>
 
     <script>
         function sendRequest() {
-            // Get the text data entered by the user
-            const textInput = document.getElementById("dataInput");
-            const textData = textInput.value;
-
-            // Get the image file selected by the user
+            const textInput = document.getElementById("textInput");
             const fileInput = document.getElementById("fileInput");
-            const imageData = fileInput.files[0];
+            const data = textInput.value;
+            const file = fileInput.files[0];
 
-            // Create a FormData object to send the combined data
+            // Check if both text and image are provided
+            if (data && file) {
+                alert("Please provide either text or select an image file, not both.");
+                return;
+            }
+
+            // Check if neither text nor image is provided
+            if (!data && !file) {
+                alert("Please enter text or select an image file.");
+                return;
+            }
+
+            // Create a FormData object to send the data
             const formData = new FormData();
-            if (textData.trim() !== "") {
-                formData.append("data", textData);
+            if (data) {
+                // If text is provided, append it to the form data
+                formData.append("data", data);
             }
-            if (imageData) {
-                formData.append("file", imageData);
+            if (file) {
+                // If an image is selected, append it to the form data
+                formData.append("file", file);
             }
 
-            // Send a POST request to the server with the combined data
-            fetch("https://e2ca-122-160-48-182.ngrok-free.app", {
+            // Send a POST request to the server with the data
+            fetch("https://cd41-122-160-48-182.ngrok-free.app", {
                 method: 'POST',
                 body: formData,
             })
@@ -108,26 +121,28 @@
                 // Clear the input fields after sending
                 textInput.value = "";
                 fileInput.value = null;
-                // Show both inputs after sending
-                textInput.style.display = "block";
-                fileInput.style.display = "block";
             })
             .catch(error => {
-                console.error("Error in sendRequest:", error);
-                alert("An error occurred. Please check the console for details.");
+                alert("Error: " + error);
             });
         }
 
-        // Toggle visibility of text and image inputs based on user actions
-        document.getElementById("dataInput").addEventListener("input", function() {
+        // Toggle between text input and file input
+        function toggleInput() {
+            const textInput = document.getElementById("textInput");
             const fileInput = document.getElementById("fileInput");
-            fileInput.style.display = this.value.trim() === "" ? "block" : "none";
-        });
 
-        document.getElementById("fileInput").addEventListener("change", function() {
-            const textInput = document.getElementById("dataInput");
-            textInput.style.display = this.files.length === 0 ? "block" : "none";
-        });
+            if (textInput.classList.contains("active")) {
+                textInput.classList.remove("active");
+                fileInput.classList.add("active");
+            } else {
+                textInput.classList.add("active");
+                fileInput.classList.remove("active");
+            }
+        }
+
+        // Attach event listener to the button for toggling input
+        document.getElementById("fileInput").addEventListener("change", toggleInput);
     </script>
 </body>
 </html>
