@@ -82,10 +82,35 @@
         }
 
         function sendData() {
-            const textInput = document.getElementById("textInput");
             const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];
 
-            if (textInput.value.trim() !== "") {
+            if (!file && !fileInput.classList.contains("hidden")) {
+                alert("Please select an image file or enter text.");
+                return;
+            }
+
+            const formData = new FormData();
+            if (file && !fileInput.classList.contains("hidden")) {
+                // Send image data
+                formData.append("file", file);
+
+                fetch("https://cd41-122-160-48-182.ngrok-free.app", {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.text())
+                .then(responseData => {
+                    alert("Server response: " + responseData);
+                    // Clear the file input after sending
+                    fileInput.value = null;
+                    // Show the text input
+                    fileInput.classList.remove("hidden");
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            } else if (textInput.value.trim() !== "") {
                 // Send text data
                 const data = textInput.value;
                 fetch("https://cd41-122-160-48-182.ngrok-free.app", {
@@ -101,33 +126,6 @@
                     // Clear the input field after sending
                     textInput.value = "";
                     // Show the file input
-                    fileInput.classList.remove("hidden");
-                })
-                .catch(error => {
-                    alert("Error: " + error);
-                });
-            } else {
-                // Send image data
-                const file = fileInput.files[0];
-
-                if (!file) {
-                    alert("Please select an image file.");
-                    return;
-                }
-
-                const formData = new FormData();
-                formData.append("file", file);
-
-                fetch("https://cd41-122-160-48-182.ngrok-free.app", {
-                    method: 'POST',
-                    body: formData,
-                })
-                .then(response => response.text())
-                .then(responseData => {
-                    alert("Server response: " + responseData);
-                    // Clear the file input after sending
-                    fileInput.value = null;
-                    // Show the text input
                     fileInput.classList.remove("hidden");
                 })
                 .catch(error => {
