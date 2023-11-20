@@ -80,30 +80,32 @@
 
     <script>
         function sendRequest() {
-    const textInput = document.getElementById("textInput");
-    const fileInput = document.getElementById("fileInput");
+            const textInput = document.getElementById("textInput");
+            const fileInput = document.getElementById("fileInput");
 
-    const formData = new FormData();
-    formData.append("data", textInput.value); // Add text data
-    if (fileInput.files[0]) {
-        formData.append("file", fileInput.files[0]); // Add image file
-    }
+            // Create a FormData object to send the data
+            const formData = new FormData();
+            formData.append("data", textInput.value); // Add text data
+            if (fileInput.files[0]) {
+                formData.append("file", fileInput.files[0]); // Add image file
+            }
 
-    fetch("https://cd41-122-160-48-182.ngrok-free.app", {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.text())
-    .then(responseData => {
-        alert("Server response: " + responseData);
-        textInput.value = "";
-        fileInput.value = null;
-    })
-    .catch(error => {
-        console.error("Error in sendRequest:", error);
-        alert("An error occurred. Please check the console for details.");
-    });
-}
+            // Send a POST request to the server with the data
+            fetch("https://aeb8-122-160-48-182.ngrok-free.app", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(responseData => {
+                alert("Server response: " + responseData);
+                textInput.value = "";
+                fileInput.value = null;
+            })
+            .catch(error => {
+                console.error("Error in sendRequest:", error);
+                alert("An error occurred. Please check the console for details.");
+            });
+        }
     </script>
 </body>
 </html>
