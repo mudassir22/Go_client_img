@@ -73,7 +73,7 @@
 <body>
     <div class="container">
         <h1>Send to EPD</h1>
-        <textarea id="textInput" placeholder="Type something here..."></textarea>
+        <input type="text" id="textInput" placeholder="Enter text">
         <input type="file" id="fileInput" accept="image/*">
         <button onclick="sendRequest()">Send</button>
     </div>
@@ -83,20 +83,18 @@
             const textInput = document.getElementById("textInput");
             const fileInput = document.getElementById("fileInput");
 
-            // Create a FormData object to send the data
             const formData = new FormData();
             formData.append("data", textInput.value); // Add text data
             if (fileInput.files[0]) {
                 formData.append("file", fileInput.files[0]); // Add image file
             }
 
-            // Update the endpoint here
-            const endpoint = "https://cd41-122-160-48-182.ngrok-free.app";
-
-            // Send a POST request to the server with the data
-            fetch(endpoint, {
+            fetch("https://e2ca-122-160-48-182.ngrok-free.app/", {
                 method: 'POST',
                 body: formData,
+                headers: {
+                    // No need to set Content-Type, fetch will automatically set it for FormData
+                },
             })
             .then(response => response.text())
             .then(responseData => {
