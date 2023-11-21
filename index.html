@@ -8,7 +8,180 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
+            display: flex;<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+        }
+
+        .input-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .file-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: block;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-label:hover {
+            background-color: #2980b9;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #219a52;
+        }
+    </style>
+    <title>Data Sender</title>
+</head>
+<body>
+    <div id="container">
+        <h2>Data Sender</h2>
+
+        <div class="input-container" id="inputContainer">
+            <label for="dynamicInput" class="file-label" id="fileInputLabel">Select Image or Enter Text</label>
+            <input type="text" name="data" id="dynamicInput" style="display:none;" placeholder="Enter text here...">
+            <input type="file" name="file" id="dynamicInput" style="display:none;" accept="image/*">
+        </div>
+
+        <button onclick="sendRequest()">Send</button>
+    </div>
+
+    <script>
+        function toggleInput() {
+            const dynamicInput = document.getElementById("dynamicInput");
+            const fileInputLabel = document.getElementById("fileInputLabel");
+
+            if (dynamicInput.type === "text") {
+                dynamicInput.type = "file";
+                fileInputLabel.textContent = "Enter Text";
+            } else {
+                dynamicInput.type = "text";
+                fileInputLabel.textContent = "Select Image";
+            }
+        }
+
+        function sendRequest() {
+            const dynamicInput = document.getElementById("dynamicInput");
+
+            if (dynamicInput.type === "text" && dynamicInput.value.trim() === "") {
+                alert("Please enter text to send.");
+                return;
+            }
+
+            if (dynamicInput.type === "file" && dynamicInput.files.length === 0) {
+                alert("Please select an image to send.");
+                return;
+            }
+
+            if (dynamicInput.type === "text") {
+                // Send text data
+                fetch("https://8baa-122-160-48-182.ngrok-free.app", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data: dynamicInput.value }),
+                })
+                .then(response => response.text())
+                .then(responseData => {
+                    alert("Server response: " + responseData);
+                    dynamicInput.value = "";
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            } else {
+                sendImage();
+            }
+        }
+
+        function sendImage() {
+            const dynamicInput = document.getElementById("dynamicInput");
+            const formData = new FormData();
+            formData.append("file", dynamicInput.files[0]);
+
+            fetch("https://8baa-122-160-48-182.ngrok-free.app", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(responseData => {
+                alert("Server response: " + responseData);
+                dynamicInput.value = null;
+            })
+            .catch(error => {
+                alert("Error: " + error);
+            });
+        }
+
+        document.getElementById("fileInputLabel").addEventListener("click", toggleInput);
+    </script>
+</body>
+</html>
+
             justify-content: center;
             align-items: center;
             height: 100vh;
