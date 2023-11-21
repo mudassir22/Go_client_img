@@ -26,49 +26,67 @@
 
         h2 {
             color: #333;
+            margin-bottom: 20px;
         }
 
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            color: #555;
-        }
-
-        .toggle-container-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right:3px;
-            margin-bottom: 15px;
-        }
-        .toggle-container-img {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-left:3px;
-            margin-bottom: 15px;
-        }
-        .toggle-btn {
+        .toggle-btn-text {
+            padding: 10px 34px;
             background-color: #3498db;
             color: #fff;
-            padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin: 0 8px;
+           margin-bottom:12px; 
         }
 
-        .toggle-btn:hover {
+		.toggle-btn-img {
+            padding: 10px 30px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 8px;
+            margin-bottom:12px;
+        }
+        
+        .toggle-btn-img:hover {
             background-color: #2980b9;
         }
-
-        #textInput, #fileInput {
+		.toggle-btn-text:hover {
+            background-color: #2980b9;
+        }
+        #textInput, #fileInput, .clear-button {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            margin-bottom: 15px;
             display: none;
+        }
+
+        #fileInput {
+            cursor: pointer;
+        }
+
+        .clear-button {
+            background-color: #e74c3c;
+            width:80px;
+            padding: 10px 20px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .clear-button:hover {
+            background-color: #c0392b;
         }
 
         button {
@@ -81,6 +99,10 @@
             font-size: 16px;
             transition: background-color 0.3s ease;
         }
+        
+        .file-input-wrapper{
+        	display:flex;
+        }
 
         button:hover {
             background-color: #219a52;
@@ -92,16 +114,15 @@
     <div id="container">
         <h2>Data Sender</h2>
 
-        <div class="toggle-container-text">
-            <button class="toggle-btn" onclick="toggleInput('text')">Enter Text</button>
-        </div>
-        <div class="toggle-container-img">
-            <button class="toggle-btn" onclick="toggleInput('file')">Select Image</button>
-        </div>
-        
+        <button class="toggle-btn-text" onclick="toggleInput('text')">Text</button>
+        <button class="toggle-btn-img" onclick="toggleInput('image')">Image</button>
+
         <textarea id="textInput" name="data" placeholder="Enter text here..."></textarea>
 
-        <input type="file" id="fileInput" name="file" accept="image/*">
+        <div class="file-input-wrapper">
+            <input type="file" id="fileInput" name="file" accept="image/*" onchange="displayClearButton()">
+            <label for="fileInput" class="clear-button" style="display: none;">Clear</label>
+        </div>
 
         <button onclick="sendRequest()">Send</button>
     </div>
@@ -110,13 +131,13 @@
         function toggleInput(type) {
             const textInput = document.getElementById("textInput");
             const fileInput = document.getElementById("fileInput");
+            const clearButton = document.querySelector('.clear-button');
+
+            textInput.style.display = type === 'text' ? 'block' : 'none';
+            fileInput.style.display = type === 'image' ? 'block' : 'none';
 
             if (type === 'text') {
-                textInput.style.display = 'block';
-                fileInput.style.display = 'none';
-            } else {
-                textInput.style.display = 'none';
-                fileInput.style.display = 'block';
+                clearButton.style.display = 'none';
             }
         }
 
@@ -152,12 +173,11 @@
                     alert("Error: " + error);
                 });
             } else {
-                sendImage();
+                sendImage(fileInput);
             }
         }
 
-        function sendImage() {
-            const fileInput = document.getElementById("fileInput");
+        function sendImage(fileInput) {
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
 
@@ -169,10 +189,22 @@
             .then(responseData => {
                 alert("Server response: " + responseData);
                 fileInput.value = null;
+                displayClearButton();
             })
             .catch(error => {
                 alert("Error: " + error);
             });
+        }
+
+        function displayClearButton() {
+            const clearButton = document.querySelector('.clear-button');
+            const fileInput = document.getElementById("fileInput");
+
+            if (fileInput.files.length > 0) {
+                clearButton.style.display = 'inline-block';
+            } else {
+                clearButton.style.display = 'none';
+            }
         }
     </script>
 </body>
