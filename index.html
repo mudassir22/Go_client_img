@@ -20,6 +20,8 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            margin: auto;
         }
 
         h2 {
@@ -28,21 +30,21 @@
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin: 15px 0 5px;
             color: #555;
         }
 
-        textarea {
+        input, textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            resize: vertical;
+            transition: border-color 0.3s ease;
         }
 
-        #fileInput {
+        input[type="file"] {
             display: none;
         }
 
@@ -83,66 +85,69 @@
         <h2>Data Sender</h2>
 
         <label for="dataInput">Text Input:</label>
-        <textarea id="dataInput" placeholder="Enter text here..." oninput="toggleFileInput()"></textarea>
+        <textarea id="dataInput" placeholder="Enter text here..." oninput="handleInputChange()"></textarea>
 
-        <label for="fileInput" class="file-label">Select Image</label>
-        <input type="file" name="file" id="fileInput" onchange="toggleTextInput()">
+        <label for="fileInput" class="file-label" id="fileInputLabel">Select Image</label>
+        <input type="file" name="file" id="fileInput" onchange="handleFileChange()">
 
         <button onclick="sendRequest()">Send</button>
     </div>
 
     <script>
-        function toggleFileInput() {
+        function handleInputChange() {
             const dataInput = document.getElementById("dataInput");
             const fileInput = document.getElementById("fileInput");
+            const fileInputLabel = document.getElementById("fileInputLabel");
 
             if (dataInput.value.trim() !== "") {
+                fileInputLabel.style.display = "none";
                 fileInput.style.display = "none";
             } else {
-                fileInput.style.display = "inline-block";
+                fileInputLabel.style.display = "inline-block";
+                fileInput.style.display = "block";
             }
         }
 
-        function toggleTextInput() {
+        function handleFileChange() {
             const dataInput = document.getElementById("dataInput");
             const fileInput = document.getElementById("fileInput");
+            const fileInputLabel = document.getElementById("fileInputLabel");
 
             if (fileInput.files.length > 0) {
                 dataInput.style.display = "none";
             } else {
-                dataInput.style.display = "inline-block";
+                dataInput.style.display = "block";
             }
         }
 
         function sendRequest() {
             const dataInput = document.getElementById("dataInput");
             const fileInput = document.getElementById("fileInput");
-            const data = dataInput.value;
 
-            if (data && fileInput.files.length > 0) {
+            if (dataInput.value.trim() !== "" && fileInput.files.length > 0) {
                 alert("Please select only one type of data to send.");
                 return;
             }
 
-            if (!data && fileInput.files.length === 0) {
+            if (dataInput.value.trim() === "" && fileInput.files.length === 0) {
                 alert("Please enter text or select an image to send.");
                 return;
             }
 
-            if (data) {
+            if (dataInput.value.trim() !== "") {
                 // Send text data
                 fetch("https://8baa-122-160-48-182.ngrok-free.app", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ data }),
+                    body: JSON.stringify({ data: dataInput.value }),
                 })
                 .then(response => response.text())
                 .then(responseData => {
                     alert("Server response: " + responseData);
                     dataInput.value = "";
-                    toggleFileInput();
+                    handleInputChange();
                 })
                 .catch(error => {
                     alert("Error: " + error);
@@ -171,7 +176,7 @@
             .then(responseData => {
                 alert("Server response: " + responseData);
                 fileInput.value = null;
-                toggleTextInput();
+                handleFileChange();
             })
             .catch(error => {
                 alert("Error: " + error);
