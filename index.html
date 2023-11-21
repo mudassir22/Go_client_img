@@ -34,40 +34,34 @@
             color: #555;
         }
 
-        .input-container {
-            position: relative;
-            display: inline-block;
-            width: 100%;
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-bottom: 15px;
         }
 
-        input[type="text"], input[type="file"] {
+        .toggle-btn {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background-color: #2980b9;
+        }
+
+        #textInput, #fileInput {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            transition: border-color 0.3s ease;
-        }
-
-        .file-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: block;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: #fff;
-            text-align: center;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            z-index: 1;
-        }
-
-        .file-label:hover {
-            background-color: #2980b9;
+            display: none;
         }
 
         button {
@@ -79,7 +73,6 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s ease;
-            z-index: 0;
         }
 
         button:hover {
@@ -92,55 +85,60 @@
     <div id="container">
         <h2>Data Sender</h2>
 
-        <div class="input-container" id="inputContainer">
-            <label for="dynamicInput" class="file-label" id="fileInputLabel">Select Image or Enter Text</label>
-            <input type="text" name="data" id="dynamicInput" style="display:none;" placeholder="Enter text here...">
-            <input type="file" name="file" id="dynamicInput" style="display:none;" accept="image/*">
+        <div class="toggle-container">
+            <button class="toggle-btn" onclick="toggleInput('text')">Enter Text</button>
+            <button class="toggle-btn" onclick="toggleInput('file')">Select Image</button>
         </div>
+
+        <label for="textInput">Text Input:</label>
+        <textarea id="textInput" name="data" placeholder="Enter text here..."></textarea>
+
+        <input type="file" id="fileInput" name="file" accept="image/*">
 
         <button onclick="sendRequest()">Send</button>
     </div>
 
     <script>
-        function toggleInput() {
-            const dynamicInput = document.getElementById("dynamicInput");
-            const fileInputLabel = document.getElementById("fileInputLabel");
+        function toggleInput(type) {
+            const textInput = document.getElementById("textInput");
+            const fileInput = document.getElementById("fileInput");
 
-            if (dynamicInput.type === "text") {
-                dynamicInput.type = "file";
-                fileInputLabel.textContent = "Enter Text";
+            if (type === 'text') {
+                textInput.style.display = 'block';
+                fileInput.style.display = 'none';
             } else {
-                dynamicInput.type = "text";
-                fileInputLabel.textContent = "Select Image";
+                textInput.style.display = 'none';
+                fileInput.style.display = 'block';
             }
         }
 
         function sendRequest() {
-            const dynamicInput = document.getElementById("dynamicInput");
+            const textInput = document.getElementById("textInput");
+            const fileInput = document.getElementById("fileInput");
 
-            if (dynamicInput.type === "text" && dynamicInput.value.trim() === "") {
+            if (textInput.style.display === 'block' && textInput.value.trim() === "") {
                 alert("Please enter text to send.");
                 return;
             }
 
-            if (dynamicInput.type === "file" && dynamicInput.files.length === 0) {
+            if (fileInput.style.display === 'block' && fileInput.files.length === 0) {
                 alert("Please select an image to send.");
                 return;
             }
 
-            if (dynamicInput.type === "text") {
+            if (textInput.style.display === 'block') {
                 // Send text data
                 fetch("https://8baa-122-160-48-182.ngrok-free.app", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ data: dynamicInput.value }),
+                    body: JSON.stringify({ data: textInput.value }),
                 })
                 .then(response => response.text())
                 .then(responseData => {
                     alert("Server response: " + responseData);
-                    dynamicInput.value = "";
+                    textInput.value = "";
                 })
                 .catch(error => {
                     alert("Error: " + error);
@@ -151,9 +149,9 @@
         }
 
         function sendImage() {
-            const dynamicInput = document.getElementById("dynamicInput");
+            const fileInput = document.getElementById("fileInput");
             const formData = new FormData();
-            formData.append("file", dynamicInput.files[0]);
+            formData.append("file", fileInput.files[0]);
 
             fetch("https://8baa-122-160-48-182.ngrok-free.app", {
                 method: 'POST',
@@ -162,14 +160,12 @@
             .then(response => response.text())
             .then(responseData => {
                 alert("Server response: " + responseData);
-                dynamicInput.value = null;
+                fileInput.value = null;
             })
             .catch(error => {
                 alert("Error: " + error);
             });
         }
-
-        document.getElementById("fileInputLabel").addEventListener("click", toggleInput);
     </script>
 </body>
 </html>
