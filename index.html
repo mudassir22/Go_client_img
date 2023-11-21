@@ -34,13 +34,20 @@
             color: #555;
         }
 
-        .toggle-container {
+        .toggle-container-text {
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-right:3px;
             margin-bottom: 15px;
         }
-
+        .toggle-container-img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left:3px;
+            margin-bottom: 15px;
+        }
         .toggle-btn {
             background-color: #3498db;
             color: #fff;
@@ -85,12 +92,13 @@
     <div id="container">
         <h2>Data Sender</h2>
 
-        <div class="toggle-container">
+        <div class="toggle-container-text">
             <button class="toggle-btn" onclick="toggleInput('text')">Enter Text</button>
+        </div>
+        <div class="toggle-container-img">
             <button class="toggle-btn" onclick="toggleInput('file')">Select Image</button>
         </div>
-
-        <label for="textInput">Text Input:</label>
+        
         <textarea id="textInput" name="data" placeholder="Enter text here..."></textarea>
 
         <input type="file" id="fileInput" name="file" accept="image/*">
