@@ -83,100 +83,100 @@
         <h2>Data Sender</h2>
 
         <label for="dataInput">Text Input:</label>
-        <textarea id="dataInput" placeholder="Enter text here..."></textarea>
+        <textarea id="dataInput" placeholder="Enter text here..." oninput="toggleFileInput()"></textarea>
 
         <label for="fileInput" class="file-label">Select Image</label>
-        <input type="file" name="file" id="fileInput">
-
+        <input type="file" name="file" id="fileInput" onchange="toggleTextInput()">
 
         <button onclick="sendRequest()">Send</button>
     </div>
 
     <script>
-        function sendRequest() {
-    const dataInput = document.getElementById("dataInput");
-    const fileInput = document.getElementById("fileInput");
-    const data = dataInput.value;
+        function toggleFileInput() {
+            const dataInput = document.getElementById("dataInput");
+            const fileInput = document.getElementById("fileInput");
 
-    if (data && fileInput.files.length > 0) {
-        alert("Please select only one type of data to send.");
-        return;
-    }
-
-    if (!data && fileInput.files.length === 0) {
-        alert("Please enter text or select an image to send.");
-        return;
-    }
-
-    if (data) {
-        // Send text data
-        fetch("https://8baa-122-160-48-182.ngrok-free.app", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ data }),
-        })
-        .then(response => response.text())
-        .then(responseData => {
-            alert("Server response: " + responseData);
-            dataInput.value = "";
-        })
-        .catch(error => {
-            alert("Error: " + error);
-        });
-    } else {
-
-        sendImage();
-        // Send image data
-       /* const file = fileInput.files[0];
-        const formData = new FormData();
-        formData.append("file", file);
-
-        fetch("https://cd41-122-160-48-182.ngrok-free.app", {
-            method: 'POST',
-            body: formData,
-            // Add this line to set the correct content type for image data
-            headers: {
-             'Content-Type': 'multipart/form-data', // Add the boundary parameter
-            },
-
-        })
-        .then(response => response.text())
-        .then(responseData => {
-            alert("Server response: " + responseData);
-            fileInput.value = null;
-        })
-        .catch(error => {
-            alert("Error: " + error);
-        });
-        */
-    }
-}
-function sendImage() {
-        const fileInput = document.getElementById("fileInput");
-
-        if (fileInput.files.length === 0) {
-            alert("Please select an image to send.");
-            return;
+            if (dataInput.value.trim() !== "") {
+                fileInput.style.display = "none";
+            } else {
+                fileInput.style.display = "inline-block";
+            }
         }
 
-        const formData = new FormData();
-        formData.append("file", fileInput.files[0]);
+        function toggleTextInput() {
+            const dataInput = document.getElementById("dataInput");
+            const fileInput = document.getElementById("fileInput");
 
-        fetch("https://8baa-122-160-48-182.ngrok-free.app", {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.text())
-        .then(responseData => {
-            alert("Server response: " + responseData);
-            fileInput.value = null;
-        })
-        .catch(error => {
-            alert("Error: " + error);
-        });
-    }
+            if (fileInput.files.length > 0) {
+                dataInput.style.display = "none";
+            } else {
+                dataInput.style.display = "inline-block";
+            }
+        }
+
+        function sendRequest() {
+            const dataInput = document.getElementById("dataInput");
+            const fileInput = document.getElementById("fileInput");
+            const data = dataInput.value;
+
+            if (data && fileInput.files.length > 0) {
+                alert("Please select only one type of data to send.");
+                return;
+            }
+
+            if (!data && fileInput.files.length === 0) {
+                alert("Please enter text or select an image to send.");
+                return;
+            }
+
+            if (data) {
+                // Send text data
+                fetch("https://8baa-122-160-48-182.ngrok-free.app", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ data }),
+                })
+                .then(response => response.text())
+                .then(responseData => {
+                    alert("Server response: " + responseData);
+                    dataInput.value = "";
+                    toggleFileInput();
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            } else {
+                sendImage();
+            }
+        }
+
+        function sendImage() {
+            const fileInput = document.getElementById("fileInput");
+
+            if (fileInput.files.length === 0) {
+                alert("Please select an image to send.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            fetch("https://8baa-122-160-48-182.ngrok-free.app", {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(responseData => {
+                alert("Server response: " + responseData);
+                fileInput.value = null;
+                toggleTextInput();
+            })
+            .catch(error => {
+                alert("Error: " + error);
+            });
+        }
     </script>
 </body>
 </html>
