@@ -5,120 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 97vh;
-        }
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-        #container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 600px;
-            margin: auto;
-        }
+#container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+}
 
-        h2 {
-            color: #333;
-            margin-bottom: 30px;
-        }
+h2 {
+    color: #343a40;
+    margin-bottom: 30px;
+}
 
-        .toggle-btn-text {
-            padding: 10px 40px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 0 8px;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
+.toggle-btn-text,
+.toggle-btn-img,
+.clear-button,
+button {
+    padding: 12px 40px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
 
-        .toggle-btn-img {
-            padding: 10px 40px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 0 8px;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
+.clear-button:hover,
+.toggle-btn-text:hover,
+.toggle-btn-img:hover,
+button:hover {
+    background-color: #0056b3;
+}
 
-        .toggle-btn-img:hover,
-        .toggle-btn-text:hover {
-            background-color: #2980b9;
-        }
+#textInput,
+#fileInput,
+.clear-button {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    display: none;
+    font-size: 16px;
+}
 
-        #textInput,
-        #fileInput,
-        .clear-button {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            display: none;
-            font-size: 16px;
-        }
+#fileInput {
+    cursor: pointer;
+}
 
-        #fileInput {
-            cursor: pointer;
-        }
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-        .clear-button {
-            background-color: #e74c3c;
-            width: 120px;
-            padding: 15px;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
+label {
+    color: #6c757d;
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+}
 
-        .clear-button:hover {
-            background-color: #c0392b;
-        }
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
 
-        button {
-            padding: 11px 22px;
-            background-color: #27ae60;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
-        }
+p {
+    margin: 10px 0;
+    color: #6c757d;
+}
 
-        .file-input-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+#dynamicUrl {
+    font-size: 14px;
+    color: #6c757d;
+}
 
-        button:hover {
-            background-color: #219a52;
-        }
     </style>
     <title>Data Sender</title>
 </head>
 <body>
     <div id="container">
         <h2>Send To EPID</h2>
+
+        <label for="stationName">Select Metro Station:</label>
+        <select id="stationName">
+            <option value="rajiv-chowk">Rajiv Chowk</option>
+            <option value="nangloi">Nangloi</option>
+            <option value="barakhamba-road">Barakhamba Road</option>
+            <option value="karol-bagh">Karol Bagh</option>
+        </select>
+
+        <label for="displayNumber">Select Display Number:</label>
+        <select id="displayNumber">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">All</option>
+        </select>
 
         <button class="toggle-btn-text" onclick="toggleInput('text')">Text</button>
         <button class="toggle-btn-img" onclick="toggleInput('image')">Image</button>
@@ -131,6 +138,8 @@
         </div>
 
         <button onclick="sendRequest()">Send</button>
+
+        <!-- Remove the dynamic URL display -->
     </div>
 
     <script>
@@ -148,46 +157,47 @@
         }
 
         function sendRequest() {
-            const textInput = document.getElementById("textInput");
-            const fileInput = document.getElementById("fileInput");
+    const textInput = document.getElementById("textInput");
+    const fileInput = document.getElementById("fileInput");
+    
+    // Get station name and display number
+    const stationName = document.getElementById("stationName").value;
+    const displayNumber = document.getElementById("displayNumber").value;
 
-            if (textInput.style.display === 'block' && textInput.value.trim() === "") {
-                alert("Please enter text to send.");
-                return;
-            }
+    // Update the URL dynamically
+    const baseUrl = "https://8e24-122-160-48-182.ngrok-free.app";
+    const dynamicUrl = `/${stationName}/POST/data-channel/${displayNumber}`;
 
-            if (fileInput.style.display === 'block' && fileInput.files.length === 0) {
-                alert("Please select an image to send.");
-                return;
-            }
+    if (textInput.style.display === 'block') {
+        // Send text data
+        fetch(baseUrl + dynamicUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data: textInput.value }),
+        })
+        .then(response => response.text())
+        .then(responseData => {
+            alert("Server response: " + responseData);
+            textInput.value = "";
+        })
+        .catch(error => {
+            alert("Error: " + error);
+        });
+    } else {
+        sendImage(fileInput, baseUrl + dynamicUrl);
+    }
+}
 
-            if (textInput.style.display === 'block') {
-                // Send text data
-                fetch("https://8e24-122-160-48-182.ngrok-free.app", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ data: textInput.value }),
-                })
-                .then(response => response.text())
-                .then(responseData => {
-                    alert("Server response: " + responseData);
-                    textInput.value = "";
-                })
-                .catch(error => {
-                    alert("Error: " + error);
-                });
-            } else {
-                sendImage(fileInput);
-            }
-        }
+// ... (your existing script content) ...
+
 
         function sendImage(fileInput) {
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
 
-            fetch("https://8e24-122-160-48-182.ngrok-free.app", {
+            fetch(baseUrl + dynamicUrl, {
                 method: 'POST',
                 body: formData,
             })
@@ -203,43 +213,38 @@
         }
 
         function displayClearButton() {
-    const clearButton = document.querySelector('.clear-button');
-    const fileInput = document.getElementById("fileInput");
+            const clearButton = document.querySelector('.clear-button');
+            const fileInput = document.getElementById("fileInput");
 
-    if (fileInput.files.length > 0) {
-        clearButton.style.display = 'inline-block';
-    } else {
-        clearButton.style.display = 'none';
-    }
+            if (fileInput.files.length > 0) {
+                clearButton.style.display = 'inline-block';
+            } else {
+                clearButton.style.display = 'none';
+            }
 
-    clearButton.onclick = function () {
-        // Clear the file input
-        resetFileInput();
-        displayClearButton();
-    };
-}
-function resetFileInput() {
-    const fileInput = document.getElementById("fileInput");
-    fileInput.style.display = 'none';
+            clearButton.onclick = function () {
+                // Clear the file input
+                resetFileInput();
+                displayClearButton();
+            };
+        }
 
-    // Create a new file input
-    const newFileInput = document.createElement('input');
-    newFileInput.type = 'file';
-    newFileInput.id = 'fileInput';
-    newFileInput.name = 'file';
-    newFileInput.accept = 'image/*';
-    newFileInput.onchange = displayClearButton;
+        function resetFileInput() {
+            const fileInput = document.getElementById("fileInput");
+            fileInput.style.display = 'none';
 
-    // Replace the existing file input with the new one
-    const fileInputWrapper = document.querySelector('.file-input-wrapper');
-    fileInputWrapper.replaceChild(newFileInput, fileInput);
+            const newFileInput = document.createElement('input');
+            newFileInput.type = 'file';
+            newFileInput.id = 'fileInput';
+            newFileInput.name = 'file';
+            newFileInput.accept = 'image/*';
+            newFileInput.onchange = displayClearButton;
 
-    // Display the new file input
-    newFileInput.style.display = 'block';
-}
+            const fileInputWrapper = document.querySelector('.file-input-wrapper');
+            fileInputWrapper.replaceChild(newFileInput, fileInput);
 
-
-
+            newFileInput.style.display = 'block';
+        }
     </script>
 </body>
 </html>
