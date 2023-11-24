@@ -186,18 +186,19 @@ p {
             alert("Error: " + error);
         });
     } else {
-        sendImage(fileInput, baseUrl + dynamicUrl);
+        const addedUrl = baseUrl + dynamicUrl
+        sendImage(fileInput, addedUrl);
     }
 }
 
 // ... (your existing script content) ...
 
 
-        function sendImage(fileInput) {
+        function sendImage(fileInput,addedUrl) {
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
 
-            fetch(baseUrl + dynamicUrl, {
+            fetch(addedUrl, {
                 method: 'POST',
                 body: formData,
             })
