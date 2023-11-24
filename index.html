@@ -43,6 +43,7 @@ button {
     margin: 0 8px;
     margin-bottom: 20px;
     font-size: 16px;
+    outline: none;
 }
 
 .clear-button:hover,
@@ -63,6 +64,8 @@ button:hover {
     margin-bottom: 20px;
     display: none;
     font-size: 16px;
+    transition: border-color 0.3s ease;
+    outline: none;
 }
 
 #fileInput {
@@ -80,6 +83,7 @@ label {
     display: block;
     text-align: left;
     margin-bottom: 8px;
+    font-size: 14px;
 }
 
 select,
@@ -91,16 +95,41 @@ textarea {
     box-sizing: border-box;
     margin-bottom: 20px;
     font-size: 16px;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+select:focus,
+textarea:focus,
+#fileInput:focus {
+    border-color: #007bff;
 }
 
 p {
     margin: 10px 0;
     color: #6c757d;
+    font-size: 14px;
 }
 
 #dynamicUrl {
     font-size: 14px;
     color: #6c757d;
+}
+
+.clear-button {
+    background-color: #e74c3c;
+    width: 80px;
+    padding: 15px;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.clear-button:hover {
+    background-color: #660000;
 }
 
     </style>
@@ -186,19 +215,18 @@ p {
             alert("Error: " + error);
         });
     } else {
-        const addedUrl = baseUrl + dynamicUrl
-        sendImage(fileInput, addedUrl);
+        sendImage(fileInput, baseUrl + dynamicUrl);
     }
 }
 
 // ... (your existing script content) ...
 
 
-        function sendImage(fileInput,addedUrl) {
+        function sendImage(fileInput,url) {
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
 
-            fetch(addedUrl, {
+            fetch(url, {
                 method: 'POST',
                 body: formData,
             })
