@@ -193,7 +193,7 @@ p {
 // ... (your existing script content) ...
 
 
-        function sendImage(fileInput) {
+        function sendImage(fileInput,baseUrl + dynamicUrl) {
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
 
