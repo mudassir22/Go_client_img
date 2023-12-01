@@ -229,6 +229,7 @@ p {
             fetch(url, {
                 method: 'POST',
                 body: formData,
+                timeout: 240000,
             })
             .then(response => response.text())
             .then(responseData => {
