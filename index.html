@@ -222,7 +222,7 @@ p {
 // ... (your existing script content) ...
 
 
-        function sendImage(fileInput,url) {
+     /*   function sendImage(fileInput,url) {
             const formData = new FormData();
             formData.append("file", fileInput.files[0]);
 
@@ -241,7 +241,37 @@ p {
                 alert("Error: " + error);
             });
         }
+        */
 
+async function sendImage(fileInput, url) {
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseData = await response.text();
+        alert("Server response: " + responseData);
+        fileInput.value = null;
+        displayClearButton();
+    } catch (error) {
+        alert("Error: " + error.message);
+    }
+}
+
+
+
+        
+
+
+        
         function displayClearButton() {
             const clearButton = document.querySelector('.clear-button');
             const fileInput = document.getElementById("fileInput");
