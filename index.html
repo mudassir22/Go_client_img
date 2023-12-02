@@ -139,12 +139,16 @@ p {
     <div id="container">
         <h2>Send To EPID</h2>
 
-        <label for="stationName">Select Metro Station:</label>
-        <select id="stationName">
-            <option value="rajiv-chowk">Rajiv Chowk</option>
-            <option value="nangloi">Nangloi</option>
-            <option value="barakhamba-road">Barakhamba Road</option>
-            <option value="karol-bagh">Karol Bagh</option>
+        <label for="country">Select Country:</label>
+        <select id="country">
+            <option value="usa">USA</option>
+            <option value="canada">Canada</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <label for="stateRegion">Select State/Region:</label>
+        <select id="stateRegion">
+            <!-- Options will be dynamically populated based on the selected country -->
         </select>
 
         <label for="displayNumber">Select Display Number:</label>
@@ -167,8 +171,6 @@ p {
         </div>
 
         <button onclick="sendRequest()">Send</button>
-
-        <!-- Remove the dynamic URL display -->
     </div>
 
     <script>
