@@ -251,6 +251,7 @@ async function sendImage(fileInput, url) {
         const response = await fetch(url, {
             method: 'POST',
             body: formData,
+            timeout: 300000, // Set timeout to 5 minutes (300,000 milliseconds)
         });
 
         if (!response.ok) {
@@ -265,6 +266,7 @@ async function sendImage(fileInput, url) {
         alert("Error: " + error.message);
     }
 }
+
 
 
 
